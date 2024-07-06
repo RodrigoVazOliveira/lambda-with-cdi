@@ -23,6 +23,7 @@
         <maven.compiler.plugin>3.13.0</maven.compiler.plugin>
         <jacoco.maven.plugin>0.8.12</jacoco.maven.plugin>
         <guice>7.0.0</guice>
+        <feign.core>13.3</feign.core>
     </properties>
 
     <dependencies>
@@ -70,12 +71,32 @@
             <version>${log4j.core}</version>
         </dependency>
 
-
+        <!-- CDI -->
         <dependency>
             <groupId>com.google.inject</groupId>
             <artifactId>guice</artifactId>
             <version>7.0.0</version>
         </dependency>
+
+        <!-- Feign core - integrations API -->
+        <dependency>
+            <groupId>io.github.openfeign</groupId>
+            <artifactId>feign-core</artifactId>
+            <version>${feign.core}</version>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/io.github.openfeign/feign-jackson -->
+        <dependency>
+            <groupId>io.github.openfeign</groupId>
+            <artifactId>feign-jackson</artifactId>
+            <version>${feign.core}</version>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/io.github.openfeign/feign-slf4j -->
+        <dependency>
+            <groupId>io.github.openfeign</groupId>
+            <artifactId>feign-slf4j</artifactId>
+            <version>${feign.core}</version>
+        </dependency>
+
 
         <!-- test lambda -->
         <dependency>

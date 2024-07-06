@@ -1,4 +1,4 @@
-package dev.rodrigovaz.usecase;
+package dev.rodrigovaz.core.usercase;
 
 import com.amazonaws.services.lambda.runtime.events.APIGatewayProxyRequestEvent;
 import com.amazonaws.services.lambda.runtime.events.APIGatewayProxyResponseEvent;

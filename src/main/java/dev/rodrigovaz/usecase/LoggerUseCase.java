@@ -5,6 +5,7 @@ import com.amazonaws.lambda.thirdparty.com.fasterxml.jackson.databind.ObjectMapp
 import com.amazonaws.services.lambda.runtime.events.APIGatewayProxyRequestEvent;
 import com.amazonaws.services.lambda.runtime.events.APIGatewayProxyResponseEvent;
 import com.google.inject.Inject;
+import dev.rodrigovaz.core.usercase.ILoggerUseCase;
 import org.apache.logging.log4j.ThreadContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

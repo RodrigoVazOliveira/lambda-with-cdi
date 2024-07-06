@@ -13,7 +13,7 @@
         </Lambda>
     </Appenders>
     <Loggers>
-        <Root level="${env:AWS_LAMBDA_LOG_LEVEL:-INFO}">
+        <Root level="DEBUG">
             <AppenderRef ref="Lambda" />
         </Root>
     </Loggers>

@@ -1,5 +1,5 @@
 {
-  "body": "{\"message\": \"Lambda rocks\"}",
+  "body": "{\"cep\": \"38401394\"}",
   "resource": "/{proxy+}",
   "path": "/path/to/resource",
   "httpMethod": "POST",

@@ -1,14 +1,38 @@
 package dev.rodrigovaz.configuration;
 
-import com.amazonaws.lambda.thirdparty.com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.inject.AbstractModule;
-import dev.rodrigovaz.usecase.ILoggerUseCase;
+import com.google.inject.Provides;
+import dev.rodrigovaz.core.usercase.IGetAddressUseCase;
+import dev.rodrigovaz.core.usercase.ILoggerUseCase;
+import dev.rodrigovaz.integration.CepIntegrationFeign;
+import dev.rodrigovaz.usecase.GetAddressUseCase;
 import dev.rodrigovaz.usecase.LoggerUseCase;
+import feign.Feign;
+import feign.Logger;
+import feign.jackson.JacksonDecoder;
+import feign.jackson.JacksonEncoder;
+import feign.slf4j.Slf4jLogger;
 
 public class GuiceBeanConfiguration extends AbstractModule {
+    private final static String URL_BASE_CEP = "https://viacep.com.br";
+
     @Override
     protected void configure() {
-        //bind(ObjectMapper.class).to(ObjectMapper.class);
         bind(ILoggerUseCase.class).to(LoggerUseCase.class);
+        bind(IGetAddressUseCase.class).to(GetAddressUseCase.class);
+    }
+
+    @Provides
+    public CepIntegrationFeign provideCepIntegrationFeign() {
+        return Feign.builder()
+                .decoder(new JacksonDecoder())
+                .encoder(new JacksonEncoder())
+                .logger(new Slf4jLogger())
+                .target(CepIntegrationFeign.class, URL_BASE_CEP);
+    }
+
+    @Provides
+    public Logger.Level feignLogger() {
+        return Logger.Level.FULL;
     }
 }

@@ -13,7 +13,6 @@ import dev.rodrigovaz.core.usercase.IGetAddressUseCase;
 import dev.rodrigovaz.core.usercase.ILoggerUseCase;
 import dev.rodrigovaz.domain.AddressRequest;
 import dev.rodrigovaz.domain.AddressResponse;
-import org.apache.logging.log4j.ThreadContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -33,17 +32,36 @@ public class MainLambdaApiGatewayHandler implements RequestHandler<APIGatewayPro
     @Override
     public APIGatewayProxyResponseEvent handleRequest(APIGatewayProxyRequestEvent apiGatewayProxyRequestEvent, Context context) {
         logger.info("start lambda");
-        this.loggerUseCase.requestLogger(apiGatewayProxyRequestEvent);
+        final AddressResponse addressResponse = getAddressResponse(apiGatewayProxyRequestEvent);
+        final APIGatewayProxyResponseEvent apiGatewayProxyResponseEvent = createResponse(addressResponse);
+        logger.info("completed lambda");
+
+        return apiGatewayProxyResponseEvent;
+    }
+
+    private APIGatewayProxyResponseEvent createResponse(AddressResponse addressResponse) {
         APIGatewayProxyResponseEvent apiGatewayProxyResponseEvent = new APIGatewayProxyResponseEvent();
+        final String responseBody = convertAddressResponseToJson(addressResponse);
+        apiGatewayProxyResponseEvent.setBody(responseBody);
         this.loggerUseCase.responseLogger(apiGatewayProxyResponseEvent);
+
+        return apiGatewayProxyResponseEvent;
+    }
+
+    private AddressResponse getAddressResponse(APIGatewayProxyRequestEvent apiGatewayProxyRequestEvent) {
+        this.loggerUseCase.requestLogger(apiGatewayProxyRequestEvent);
         final String requestBody = apiGatewayProxyRequestEvent.getBody();
         final AddressRequest addressRequest = getAddressRequest(requestBody);
-        AddressResponse addressResponse = this.getAddressUseCase.byCep(addressRequest.cep());
 
-        ThreadContext.put("addressResponse", addressResponse.toString());
+        return this.getAddressUseCase.byCep(addressRequest.cep());
+    }
 
-        logger.info("completed lambda");
-        return apiGatewayProxyResponseEvent;
+    private String convertAddressResponseToJson(AddressResponse addressResponse) {
+        try {
+            return this.objectMapper.writeValueAsString(addressResponse);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     private AddressRequest getAddressRequest(String requestBody) {

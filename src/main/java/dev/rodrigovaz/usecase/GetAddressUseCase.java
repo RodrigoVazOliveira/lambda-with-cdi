@@ -30,7 +30,7 @@ public class GetAddressUseCase implements IGetAddressUseCase {
         try {
             final AddressResponse addressResponse = cepIntegrationFeign.getAddressByCep(cep);
             ThreadContext.put(FIELD_ADDRESS_RESPONSE, addressResponse.toString());
-            logger.info("completed get address with sucessfully");
+            logger.info("completed get address with successfully");
             ThreadContext.remove(FIELD_CEP);
             ThreadContext.remove(FIELD_ADDRESS_RESPONSE);
 

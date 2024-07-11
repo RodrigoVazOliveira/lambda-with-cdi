@@ -27,12 +27,8 @@ public class GuiceBeanConfiguration extends AbstractModule {
         return Feign.builder()
                 .decoder(new JacksonDecoder())
                 .encoder(new JacksonEncoder())
-                .logger(new Slf4jLogger())
+                .logger(new Slf4jLogger(CepIntegrationFeign.class))
+                .logLevel(Logger.Level.BASIC)
                 .target(CepIntegrationFeign.class, URL_BASE_CEP);
-    }
-
-    @Provides
-    public Logger.Level feignLogger() {
-        return Logger.Level.FULL;
     }
 }

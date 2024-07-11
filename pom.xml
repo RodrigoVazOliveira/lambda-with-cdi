@@ -7,6 +7,28 @@
     <groupId>dev.rodrigovaz</groupId>
     <artifactId>lambda-save-user</artifactId>
     <version>1.0-SNAPSHOT</version>
+    <name>lambda-save-user</name>
+    <description>
+        Lambda developer to example in how do a lambda AWS with feign and
+        logj4j2
+    </description>
+
+    <developers>
+         <developer>
+             <name>Rodrigo Vaz</name>
+             <email>rodrigovazdeoliveira@gmail.com</email>
+         </developer>
+    </developers>
+
+    <licenses>
+        <license>
+            <name>MIT License</name>
+            <url>https://opensource.org/license/mit</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
+
+    <url>https://github.com/RodrigoVazOliveira/lambda-with-cdi</url>
 
     <properties>
         <maven.compiler.source>21</maven.compiler.source>
@@ -24,6 +46,7 @@
         <jacoco.maven.plugin>0.8.12</jacoco.maven.plugin>
         <guice>7.0.0</guice>
         <feign.core>13.3</feign.core>
+        <org.aspectj>1.9.22.1</org.aspectj>
     </properties>
 
     <dependencies>
@@ -53,22 +76,18 @@
         <dependency>
             <groupId>org.apache.logging.log4j</groupId>
             <artifactId>log4j-core</artifactId>
-            <version>${log4j.core}</version>
         </dependency>
         <dependency>
             <groupId>org.apache.logging.log4j</groupId>
             <artifactId>log4j-api</artifactId>
-            <version>${log4j.core}</version>
         </dependency>
         <dependency>
             <groupId>org.apache.logging.log4j</groupId>
             <artifactId>log4j-layout-template-json</artifactId>
-            <version>${log4j.core}</version>
         </dependency>
         <dependency>
             <groupId>org.apache.logging.log4j</groupId>
             <artifactId>log4j-slf4j2-impl</artifactId>
-            <version>${log4j.core}</version>
         </dependency>
 
         <!-- CDI -->
@@ -82,21 +101,28 @@
         <dependency>
             <groupId>io.github.openfeign</groupId>
             <artifactId>feign-core</artifactId>
-            <version>${feign.core}</version>
         </dependency>
-        <!-- https://mvnrepository.com/artifact/io.github.openfeign/feign-jackson -->
         <dependency>
             <groupId>io.github.openfeign</groupId>
             <artifactId>feign-jackson</artifactId>
-            <version>${feign.core}</version>
         </dependency>
-        <!-- https://mvnrepository.com/artifact/io.github.openfeign/feign-slf4j -->
         <dependency>
             <groupId>io.github.openfeign</groupId>
             <artifactId>feign-slf4j</artifactId>
-            <version>${feign.core}</version>
         </dependency>
 
+
+        <dependency>
+            <groupId>org.aspectj</groupId>
+            <artifactId>aspectjweaver</artifactId>
+            <version>${org.aspectj}</version>
+            <scope>runtime</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.aspectj</groupId>
+            <artifactId>aspectjrt</artifactId>
+            <version>${org.aspectj}</version>
+        </dependency>
 
         <!-- test lambda -->
         <dependency>
@@ -113,6 +139,20 @@
                 <groupId>software.amazon.awssdk</groupId>
                 <artifactId>bom</artifactId>
                 <version>${aws.sdk}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>io.github.openfeign</groupId>
+                <artifactId>feign-bom</artifactId>
+                <version>${feign.core}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.logging.log4j</groupId>
+                <artifactId>log4j-bom</artifactId>
+                <version>${log4j.core}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>

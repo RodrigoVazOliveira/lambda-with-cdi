@@ -21,10 +21,3 @@ jobs:
         cache: maven
     - name: Build with Maven
       run: mvn clean package
-            - name: Maven Jar Publish
-    - name: Gerando pacote
-      uses: eric2788/maven-jar-publish@v3
-      with:
-        # the java version to build (if not provied, it will use the ${ maven.compiler.target } properties
-        java-version: '17'
-          

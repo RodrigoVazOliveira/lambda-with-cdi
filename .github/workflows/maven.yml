@@ -24,7 +24,7 @@ jobs:
     - name: Download a Build Artifact
       uses: actions/download-artifact@v4.1.8
     
-    - name: Publish to GitHub Packages Apache Maven
-      run: mvn deploy 
-      env:
-        GITHUB_TOKEN: ${{ github.token }}
+    # - name: Publish to GitHub Packages Apache Maven
+    #   run: mvn deploy 
+    #   env:
+    #     GITHUB_TOKEN: ${{ github.token }}

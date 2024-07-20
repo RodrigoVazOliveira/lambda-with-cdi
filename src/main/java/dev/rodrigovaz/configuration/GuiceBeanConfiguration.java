@@ -2,6 +2,7 @@ package dev.rodrigovaz.configuration;
 
 import com.google.inject.AbstractModule;
 import com.google.inject.Provides;
+
 import dev.rodrigovaz.core.usercase.IGetAddressUseCase;
 import dev.rodrigovaz.core.usercase.ILoggerUseCase;
 import dev.rodrigovaz.integration.CepIntegrationFeign;

@@ -15,8 +15,11 @@ import dev.rodrigovaz.domain.AddressResponse;
 import dev.rodrigovaz.domain.exception.MainException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import software.amazon.lambda.powertools.logging.CorrelationIdPathConstants;
+import software.amazon.lambda.powertools.logging.Logging;
 
 public class MainLambdaApiGatewayHandler implements RequestHandler<APIGatewayProxyRequestEvent, APIGatewayProxyResponseEvent> {
+
     private final Logger logger = LoggerFactory.getLogger(MainLambdaApiGatewayHandler.class);
     private final ILoggerUseCase loggerUseCase;
     private final IGetAddressUseCase getAddressUseCase;
@@ -27,6 +30,7 @@ public class MainLambdaApiGatewayHandler implements RequestHandler<APIGatewayPro
         this.getAddressUseCase = injector.getInstance(IGetAddressUseCase.class);
     }
 
+    @Logging(correlationIdPath = CorrelationIdPathConstants.API_GATEWAY_REST, clearState = true)
     @Override
     public APIGatewayProxyResponseEvent handleRequest(APIGatewayProxyRequestEvent apiGatewayProxyRequestEvent, Context context) {
         logger.info("start lambda");
@@ -47,12 +51,7 @@ public class MainLambdaApiGatewayHandler implements RequestHandler<APIGatewayPro
     }
 
     private APIGatewayProxyResponseEvent createResponse(AddressResponse addressResponse) {
-        APIGatewayProxyResponseEvent apiGatewayProxyResponseEvent = new APIGatewayProxyResponseEvent();
-        final String responseBody = convertAddressResponseToJson(addressResponse);
-        apiGatewayProxyResponseEvent.setBody(responseBody);
-        this.loggerUseCase.responseLogger(apiGatewayProxyResponseEvent);
-
-        return apiGatewayProxyResponseEvent;
+        return getResponseError(addressResponse);
     }
 
     private AddressResponse getAddressResponse(APIGatewayProxyRequestEvent apiGatewayProxyRequestEvent) {
@@ -69,5 +68,15 @@ public class MainLambdaApiGatewayHandler implements RequestHandler<APIGatewayPro
 
     private AddressRequest getAddressRequest(String requestBody) {
         return Convert.toObject(requestBody, AddressRequest.class);
+    }
+
+    private APIGatewayProxyResponseEvent getResponseError(
+            AddressResponse addressResponse) {
+        APIGatewayProxyResponseEvent apiGatewayProxyResponseEvent = new APIGatewayProxyResponseEvent();
+        final String responseBody = convertAddressResponseToJson(addressResponse);
+        apiGatewayProxyResponseEvent.setBody(responseBody);
+        this.loggerUseCase.responseLogger(apiGatewayProxyResponseEvent);
+
+        return apiGatewayProxyResponseEvent;
     }
 }
